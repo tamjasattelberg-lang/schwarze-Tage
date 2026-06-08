@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kleiner Schritt. Großer Unterschied.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F5F0EB;
+  --card: #FEFCF9;
+  --ink: #2C2520;
+  --muted: #8A7F78;
+  --line: #E5DDD6;
+  --sage: #7A9E8E;
+  --sage-soft: #EAF2EE;
+  --sage-deep: #4E7A6A;
+  --terra: #B07050;
+  --terra-soft: #F5EBE4;
+  --amber: #C49A4A;
+  --amber-soft: #FBF2DF;
+  --radius: 18px;
+  --shadow: 0 8px 32px -8px rgba(60,40,30,.12);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+  padding: 0 0 80px;
+}
+
+/* ── HERO ── */
+.hero {
+  background: linear-gradient(160deg, #2C3E35 0%, #1A2820 100%);
+  padding: 60px 24px 70px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 30% 60%, rgba(122,158,142,.25) 0%, transparent 60%),
+              radial-gradient(ellipse at 75% 20%, rgba(196,154,74,.12) 0%, transparent 50%);
+}
+.hero-inner { position: relative; max-width: 560px; margin: 0 auto; }
+.hero-eyebrow {
+  font-size: .78rem; letter-spacing: .15em; text-transform: uppercase;
+  color: var(--sage); margin-bottom: 18px; font-weight: 500;
+}
+.hero h1 {
+  font-family: 'Lora', serif; font-weight: 500; font-size: 2.4rem;
+  color: #F5F0EB; line-height: 1.25; margin-bottom: 16px;
+}
+.hero h1 em { font-style: italic; color: #B5D4C6; }
+.hero p {
+  color: #A8B8B0; font-size: 1rem; line-height: 1.7; margin-bottom: 32px;
+}
+.hero-notice {
+  background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12);
+  border-radius: 12px; padding: 14px 18px; font-size: .85rem; color: #8EA89E;
+  line-height: 1.6; text-align: left;
+}
+.hero-notice strong { color: #B5D4C6; }
+
+/* ── PROGRESS BAR ── */
+.progress-wrap {
+  background: #fff; border-bottom: 1px solid var(--line);
+  padding: 14px 24px; position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 2px 12px -4px rgba(60,40,30,.1);
+}
+.progress-inner { max-width: 680px; margin: 0 auto; }
+.progress-label {
+  display: flex; justify-content: space-between;
+  font-size: .78rem; color: var(--muted); margin-bottom: 6px; font-weight: 500;
+}
+.progress-track {
+  height: 6px; background: var(--line); border-radius: 99px; overflow: hidden;
+}
+.progress-fill {
+  height: 100%; background: linear-gradient(90deg, var(--sage), var(--sage-deep));
+  border-radius: 99px; transition: width .6s cubic-bezier(.4,0,.2,1);
+  width: 0%;
+}
+
+/* ── MAIN WRAP ── */
+.wrap { max-width: 680px; margin: 0 auto; padding: 0 16px; }
+
+/* ── MODULE NAV ── */
+.mod-nav {
+  display: flex; gap: 8px; padding: 24px 0 8px; overflow-x: auto;
+  scrollbar-width: none;
+}
+.mod-nav::-webkit-scrollbar { display: none; }
+.mod-btn {
+  flex-shrink: 0; border: 1px solid var(--line); background: var(--card);
+  border-radius: 99px; padding: 8px 16px; font-family: 'DM Sans', sans-serif;
+  font-size: .82rem; color: var(--muted); cursor: pointer; transition: .2s;
+  white-space: nowrap;
+}
+.mod-btn.active { background: var(--sage); color: #fff; border-color: var(--sage); }
+.mod-btn.done { background: var(--sage-soft); color: var(--sage-deep); border-color: var(--sage); }
+.mod-btn:disabled { opacity: .4; cursor: not-allowed; }
+
+/* ── CARD ── */
+.card {
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 28px; margin-bottom: 16px;
+  box-shadow: var(--shadow);
+}
+.card h2 {
+  font-family: 'Lora', serif; font-weight: 500; font-size: 1.45rem;
+  margin-bottom: 6px; line-height: 1.3;
+}
+.card .sub { color: var(--muted); font-size: .9rem; margin-bottom: 20px; line-height: 1.5; }
+
+/* ── BAROMETER ── */
+.baro-wrap { margin-bottom: 20px; }
+.baro-label { font-size: .82rem; color: var(--terra); font-weight: 500; letter-spacing: .03em; margin-bottom: 10px; }
+.baro-q { font-size: .95rem; color: var(--ink); margin-bottom: 10px; line-height: 1.5; }
+.baro-scale { display: flex; gap: 6px; flex-wrap: wrap; }
+.baro-btn {
+  width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid var(--line);
+  background: #fff; font-family: 'DM Sans', sans-serif; font-size: .9rem;
+  color: var(--muted); cursor: pointer; transition: .15s; font-weight: 500;
+}
+.baro-btn:hover { border-color: var(--sage); color: var(--sage-deep); }
+.baro-btn.sel { background: var(--sage); color: #fff; border-color: var(--sage); }
+.baro-hint { font-size: .78rem; color: var(--muted); margin-top: 8px; }
+
+/* ── CONTENT ── */
+.content { font-size: .97rem; line-height: 1.75; color: var(--ink); }
+.content p { margin-bottom: 14px; }
+.content p:last-child { margin-bottom: 0; }
+.content strong { font-weight: 500; color: var(--sage-deep); }
+
+/* ── STORY BOX ── */
+.story {
+  background: linear-gradient(135deg, #EDF4F1 0%, #F5F0EB 100%);
+  border-left: 3px solid var(--sage); border-radius: 0 14px 14px 0;
+  padding: 20px 22px; margin: 20px 0;
+}
+.story-label {
+  font-size: .72rem; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--sage-deep); font-weight: 500; margin-bottom: 10px;
+}
+.story-text {
+  font-family: 'Lora', serif; font-size: .97rem; line-height: 1.85;
+  color: #3A3028; font-style: italic;
+}
+
+/* ── EXERCISE ── */
+.exercise {
+  background: var(--amber-soft); border: 1px solid #E8D8A8;
+  border-radius: 14px; padding: 20px 22px; margin: 20px 0;
+}
+.exercise-label {
+  font-size: .72rem; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--amber); font-weight: 500; margin-bottom: 10px;
+}
+.exercise-title { font-weight: 500; margin-bottom: 8px; font-size: 1rem; }
+.exercise-steps { padding-left: 18px; }
+.exercise-steps li { margin-bottom: 6px; font-size: .93rem; line-height: 1.6; }
+
+/* ── JOURNAL ── */
+.journal-wrap { margin-top: 20px; }
+.journal-label {
+  font-size: .82rem; color: var(--muted); font-weight: 500; margin-bottom: 8px;
+  display: flex; align-items: center; gap: 8px;
+}
+.journal-optional {
+  background: var(--line); color: var(--muted); font-size: .7rem;
+  padding: 2px 8px; border-radius: 99px;
+}
+textarea.journal {
+  width: 100%; border: 1px solid var(--line); border-radius: 12px;
+  padding: 13px 15px; font-family: 'DM Sans', sans-serif; font-size: .93rem;
+  color: var(--ink); background: #fff; outline: none; resize: vertical;
+  min-height: 90px; transition: .2s; line-height: 1.6;
+}
+textarea.journal:focus { border-color: var(--sage); box-shadow: 0 0 0 4px rgba(122,158,142,.12); }
+
+/* ── SPEECH BTN ── */
+.speech-row { display: flex; gap: 8px; margin-top: 8px; align-items: center; }
+.speech-btn {
+  border: 1px solid var(--line); background: #fff; border-radius: 99px;
+  padding: 8px 14px; font-family: 'DM Sans', sans-serif; font-size: .82rem;
+  color: var(--muted); cursor: pointer; display: flex; align-items: center; gap: 6px;
+  transition: .2s;
+}
+.speech-btn:hover { border-color: var(--sage); color: var(--sage-deep); }
+.speech-btn.recording { background: #FEE2E2; border-color: #F87171; color: #B91C1C; }
+.speech-status { font-size: .8rem; color: var(--muted); }
+
+/* ── MILESTONE ── */
+.milestone {
+  background: var(--sage-soft); border: 1px solid #C0DAD0;
+  border-radius: 14px; padding: 18px 20px; margin-top: 20px;
+  display: flex; align-items: flex-start; gap: 14px;
+}
+.milestone-icon {
+  width: 40px; height: 40px; background: var(--sage); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; font-size: 1.2rem;
+}
+.milestone-text strong { display: block; color: var(--sage-deep); font-weight: 500; margin-bottom: 4px; }
+.milestone-text span { font-size: .88rem; color: var(--muted); line-height: 1.5; }
+
+/* ── BUTTON ── */
+button.primary {
+  border: none; background: var(--sage); color: #fff;
+  font-family: 'DM Sans', sans-serif; font-size: .98rem; font-weight: 500;
+  padding: 14px 28px; border-radius: 99px; cursor: pointer; transition: .2s;
+  margin-top: 20px;
+}
+button.primary:hover { background: var(--sage-deep); }
+button.primary:disabled { background: #C8D8D2; cursor: not-allowed; }
+
+/* ── CRISIS CARD ── */
+.crisis {
+  background: #FFF5F5; border: 1px solid #FECACA; border-radius: 14px;
+  padding: 18px 20px; margin-top: 16px;
+}
+.crisis-title { font-weight: 500; color: #B91C1C; margin-bottom: 8px; font-size: .95rem; }
+.crisis p { font-size: .88rem; color: #7F1D1D; line-height: 1.6; }
+.crisis a { color: #B91C1C; font-weight: 500; }
+
+/* ── CHART ── */
+#chart-wrap { margin-top: 10px; }
+.chart-bars { display: flex; align-items: flex-end; gap: 6px; height: 100px; padding-bottom: 24px; position: relative; }
+.chart-bar-col { display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 1; }
+.chart-bar {
+  width: 100%; border-radius: 6px 6px 0 0;
+  background: linear-gradient(180deg, var(--sage) 0%, var(--sage-deep) 100%);
+  transition: height .5s cubic-bezier(.4,0,.2,1); min-height: 4px;
+}
+.chart-lbl { font-size: .68rem; color: var(--muted); text-align: center; }
+.chart-val { font-size: .75rem; color: var(--sage-deep); font-weight: 500; }
+.chart-empty { font-size: .88rem; color: var(--muted); text-align: center; padding: 30px 0; }
+
+/* ── PANELS ── */
+.panel { display: none; animation: fadeup .35s ease; }
+.panel.active { display: block; }
+@keyframes fadeup { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+/* ── DISCLAIMER ── */
+.disclaimer {
+  background: var(--terra-soft); border: 1px solid #DEC0B0;
+  border-radius: 12px; padding: 14px 18px; font-size: .84rem;
+  color: #6A4030; line-height: 1.6; margin-bottom: 16px;
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Ein Begleiter für schwere Tage</div>
+    <h1>Kleiner Schritt.<br><em>Großer Unterschied.</em></h1>
+    <p>Fünf kurze Module – für Momente, in denen alles zu viel scheint und nichts mehr geht. Kein Druck, kein Tempo. Nur ein kleiner Schritt nach dem anderen.</p>
+    <div class="hero-notice">
+      <strong>Wichtiger Hinweis:</strong> Dieser Kurs ersetzt keine psychologische oder ärztliche Behandlung. Er ist ein ergänzendes Angebot zur Selbstunterstützung. Bei ernsthaften Beschwerden bitte professionelle Hilfe in Anspruch nehmen – Kontakte findest du in jedem Modul.
+    </div>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-wrap">
+  <div class="progress-inner">
+    <div class="progress-label">
+      <span id="prog-label">Noch nicht begonnen</span>
+      <span id="prog-pct">0 %</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="prog-fill"></div></div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- MODULE NAV -->
+  <nav class="mod-nav">
+    <button class="mod-btn active" data-mod="0">1 · Was passiert</button>
+    <button class="mod-btn" data-mod="1" id="nav1">2 · Wenn Panik kommt</button>
+    <button class="mod-btn" data-mod="2" id="nav2">3 · Der leere Akku</button>
+    <button class="mod-btn" data-mod="3" id="nav3">4 · Ein winziger Schritt</button>
+    <button class="mod-btn" data-mod="4" id="nav4">5 · Nicht allein</button>
+    <button class="mod-btn" data-mod="5" id="nav5">Mein Weg</button>
+  </nav>
+
+  <!-- ════ MODUL 1 ════ -->
+  <div class="panel active" id="panel-0">
+    <div class="card">
+      <h2>Was passiert gerade mit mir?</h2>
+      <p class="sub">Verstehen, was im Körper und Gehirn los ist – ohne Selbstvorwürfe.</p>
+
+      <div class="baro-wrap">
+        <div class="baro-label">Stimmungsbarometer – vor dem Lesen</div>
+        <div class="baro-q">Wie geht es dir gerade, auf einer Skala von 1 (sehr schwer) bis 10 (gut)?</div>
+        <div class="baro-scale" id="baro-0"></div>
+        <div class="baro-hint">1 = Es geht mir sehr schlecht &nbsp;·&nbsp; 10 = Ich fühle mich gut</div>
+      </div>
+
+      <div class="content">
+        <p>Wenn alles leer und schwer anfühlt, wenn Panik aus dem Nichts auftaucht oder wenn der Antrieb für irgendetwas fehlt – dann ist das kein Versagen. Das ist Biologie.</p>
+        <p>Unser Nervensystem reagiert auf anhaltenden Stress oder Erschöpfung mit einem Schutzmodus. Das Gehirn fährt Energieverbrauch herunter, Motivation sinkt, die Zukunft sieht grau aus. Das ist kein Charakterfehler – das ist ein überarbeitetes System, das Pause braucht.</p>
+        <p>Panikattacken entstehen, wenn das Alarmsystem des Körpers – der sogenannte Sympathikus – feuert, ohne dass eine echte Gefahr da ist. Der Körper meint es gut: Er will dich schützen. Er irrt sich nur gerade darüber, wie.</p>
+        <p><strong>Das Entscheidende:</strong> Nervensysteme können sich regulieren. Nicht über Nacht – aber Schritt für Schritt.</p>
+      </div>
+
+      <div class="story">
+        <div class="story-label">✦ Geschichte · Der Wächter im Keller</div>
+        <div class="story-text">
+          <p>In einem alten Haus lebte ein Wächter im Keller. Jahrelang war es seine Aufgabe gewesen, bei jedem Geräusch Alarm zu schlagen – denn früher war das Haus unsicher gewesen.</p>
+          <p>Das Haus war längst sicher. Aber der Wächter wusste es nicht. Also schlug er weiter Alarm – bei einem quietschenden Fenster, bei Schritten auf der Treppe, bei Windböen in der Nacht.</p>
+          <p>Die Bewohner lernten mit der Zeit: Der Wächter meint es gut. Er hat nur vergessen, dass sich die Zeiten geändert haben. Und so begannen sie, ihm sanft zu zeigen: Es ist vorbei. Du kannst dich ausruhen. Wir sind sicher.</p>
+          <p>Langsam – sehr langsam – lernte der Wächter zu unterscheiden. Zwischen echtem Alarm und altem Muster.</p>
+        </div>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Übung · Atemankerpunkt</div>
+        <div class="exercise-title">Einfach nur atmen – 2 Minuten</div>
+        <ol class="exercise-steps">
+          <li>Leg eine Hand auf dein Herz. Spür den Kontakt.</li>
+          <li>Atme 4 Sekunden ein – durch die Nase.</li>
+          <li>Halte kurz – 1–2 Sekunden.</li>
+          <li>Atme 6 Sekunden aus – durch den Mund, als würdest du eine Kerze auspusten.</li>
+          <li>Wiederhole das 5 Mal. Kein Ziel. Nur atmen.</li>
+        </ol>
+      </div>
+
+      <div class="journal-wrap">
+        <div class="journal-label">
+          Deine Gedanken dazu
+          <span class="journal-optional">freiwillig</span>
+        </div>
+        <textarea class="journal" id="j-0" placeholder="Was geht dir durch den Kopf, während du das liest? Du musst nichts schreiben – aber wenn etwas da ist, darf es hier Platz finden."></textarea>
+        <div class="speech-row">
+          <button class="speech-btn" id="speech-0" onclick="toggleSpeech(0)">🎙 Sprechen statt tippen</button>
+          <span class="speech-status" id="ss-0"></span>
+        </div>
+      </div>
+
+      <div class="crisis">
+        <div class="crisis-title">Wenn es gerade sehr schwer ist</div>
+        <p>Telefonseelsorge: <a href="tel:08001110111">0800 111 0 111</a> (kostenlos, 24/7) · <a href="tel:08001110222">0800 111 0 222</a><br>
+        Online-Beratung: <a href="https://www.telefonseelsorge.de" target="_blank">telefonseelsorge.de</a></p>
+      </div>
+
+      <button class="primary" onclick="completeModule(0)">Modul abschließen →</button>
+    </div>
+  </div>
+
+  <!-- ════ MODUL 2 ════ -->
+  <div class="panel" id="panel-1">
+    <div class="card">
+      <h2>Wenn die Panik kommt</h2>
+      <p class="sub">Sofort-Werkzeuge für den Moment der Welle.</p>
+
+      <div class="baro-wrap">
+        <div class="baro-label">Stimmungsbarometer – vor dem Lesen</div>
+        <div class="baro-q">Wie geht es dir gerade – auf einer Skala von 1 bis 10?</div>
+        <div class="baro-scale" id="baro-1"></div>
+        <div class="baro-hint">1 = sehr schlecht &nbsp;·&nbsp; 10 = gut</div>
+      </div>
+
+      <div class="content">
+        <p>Eine Panikattacke fühlt sich wie eine Bedrohung an – Herzrasen, Enge, das Gefühl dass etwas Schlimmes passiert. Das ist sehr real. Und gleichzeitig: Es geht vorbei. Immer.</p>
+        <p>Der Körper kann keine Panik aufrechterhalten, wenn du ihm gibst, was er braucht: ein Signal der Sicherheit. Dieses Signal kommt nicht durch Gedanken – sondern durch den Körper selbst.</p>
+        <p><strong>Drei Werkzeuge – wähle das, das sich für dich richtig anfühlt.</strong></p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Werkzeug 1 · Grounding</div>
+        <div class="exercise-title">5 – 4 – 3 – 2 – 1</div>
+        <ol class="exercise-steps">
+          <li><strong>5 Dinge sehen</strong> – schau dich um, benenne sie leise oder laut</li>
+          <li><strong>4 Dinge fühlen</strong> – Stuhl unter dir, Kleidung auf der Haut, Boden unter den Füßen …</li>
+          <li><strong>3 Dinge hören</strong> – was nimmst du gerade wahr?</li>
+          <li><strong>2 Dinge riechen</strong> – Luft, Raumduft, Kleidung</li>
+          <li><strong>1 Sache schmecken</strong> – auch Speichel zählt</li>
+        </ol>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Werkzeug 2 · Atemtechnik</div>
+        <div class="exercise-title">4 – 7 – 8 Atmung</div>
+        <ol class="exercise-steps">
+          <li>Einatmen – 4 Sekunden</li>
+          <li>Halten – 7 Sekunden</li>
+          <li>Ausatmen – 8 Sekunden (lang und langsam)</li>
+          <li>3–4 Mal wiederholen. Das Nervensystem kommt zur Ruhe.</li>
+        </ol>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Werkzeug 3 · Körperankerpunkt</div>
+        <div class="exercise-title">Füße auf dem Boden</div>
+        <ol class="exercise-steps">
+          <li>Setz dich hin oder stell dich hin.</li>
+          <li>Drück beide Füße fest auf den Boden – spür den Widerstand.</li>
+          <li>Sag innerlich oder laut: „Ich bin hier. Der Boden trägt mich."</li>
+          <li>Wiederhole das, solange es hilft.</li>
+        </ol>
+      </div>
+
+      <div class="story">
+        <div class="story-label">✦ Geschichte · Im Auge des Sturms</div>
+        <div class="story-text">
+          <p>Es gab einmal jemanden, der Angst vor Stürmen hatte. Wenn der Wind aufkam, flüchtete er ins Innere des Hauses – aber die Angst kam mit.</p>
+          <p>Eines Tages lernte er von einem alten Seemann: „Im Auge des Sturms ist es still." Und er lernte, dass man das Auge nicht suchen muss, indem man wegläuft – sondern indem man anhält.</p>
+          <p>Einatmen. Ausatmen. Boden unter den Füßen spüren. Das war das Auge. Es war immer da gewesen.</p>
+          <p>Der Sturm hörte nicht sofort auf. Aber er hörte auf, so mächtig zu sein.</p>
+        </div>
+      </div>
+
+      <div class="journal-wrap">
+        <div class="journal-label">
+          Welches Werkzeug hat sich für dich richtig angefühlt?
+          <span class="journal-optional">freiwillig</span>
+        </div>
+        <textarea class="journal" id="j-1" placeholder="Du kannst schreiben oder sprechen. Oder einfach gar nichts – das ist auch okay."></textarea>
+        <div class="speech-row">
+          <button class="speech-btn" id="speech-1" onclick="toggleSpeech(1)">🎙 Sprechen statt tippen</button>
+          <span class="speech-status" id="ss-1"></span>
+        </div>
+      </div>
+
+      <div class="crisis">
+        <div class="crisis-title">Wenn es gerade sehr schwer ist</div>
+        <p>Telefonseelsorge: <a href="tel:08001110111">0800 111 0 111</a> (kostenlos, 24/7)<br>
+        <a href="https://www.telefonseelsorge.de" target="_blank">telefonseelsorge.de</a></p>
+      </div>
+
+      <button class="primary" onclick="completeModule(1)">Modul abschließen →</button>
+    </div>
+  </div>
+
+  <!-- ════ MODUL 3 ════ -->
+  <div class="panel" id="panel-2">
+    <div class="card">
+      <h2>Der leere Akku</h2>
+      <p class="sub">Warum Antrieb fehlt – und warum das kein Versagen ist.</p>
+
+      <div class="baro-wrap">
+        <div class="baro-label">Stimmungsbarometer – vor dem Lesen</div>
+        <div class="baro-q">Wie geht es dir gerade – auf einer Skala von 1 bis 10?</div>
+        <div class="baro-scale" id="baro-2"></div>
+        <div class="baro-hint">1 = sehr schlecht &nbsp;·&nbsp; 10 = gut</div>
+      </div>
+
+      <div class="content">
+        <p>Wenn der Akku leer ist, gibt es keinen Willen, den man aufrufen könnte. Das Gehirn drosselt Dopamin – den Botenstoff, der Motivation, Freude und Antrieb erzeugt. Es ist wie ein Auto ohne Kraftstoff: Kein Versagen des Fahrers, kein kaputtes Auto. Einfach kein Kraftstoff.</p>
+        <p>Deshalb hilft es nicht, sich mehr Mühe zu geben oder sich zusammenzureißen. Der Tank wird nicht voller durch Willenskraft – sondern durch kluge, kleine Handlungen, die dem System signalisieren: Es lohnt sich wieder.</p>
+        <p><strong>Das Geheimnis:</strong> Warte nicht auf Motivation, um anzufangen. Fang an – und die Motivation kommt danach. Auch wenn der erste Schritt winzig ist.</p>
+      </div>
+
+      <div class="story">
+        <div class="story-label">✦ Geschichte · Die Pflanze im Winter</div>
+        <div class="story-text">
+          <p>Ein Baum stand mitten im Winter. Von außen sah er tot aus. Kein Blatt, kein Grün, keine Bewegung. Wer vorbeikam, mochte denken: Das war es wohl.</p>
+          <p>Aber unter der Erde, unsichtbar, arbeiteten die Wurzeln. Langsam. Stetig. Ohne Publikum.</p>
+          <p>Sie sammelten. Sie hielten. Sie bereiteten etwas vor, das noch nicht zu sehen war.</p>
+          <p>Im Frühling, ohne große Ankündigung, erschien ein Knospe. Dann eine zweite. Dann Hunderte.</p>
+          <p>Der Baum hatte sich die ganze Zeit vorbereitet. Er hatte nur nicht so ausgesehen.</p>
+        </div>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Übung · Die Zwei-Minuten-Regel</div>
+        <div class="exercise-title">Was könnte ich in 2 Minuten tun?</div>
+        <ol class="exercise-steps">
+          <li>Schreibe oder denke: Was ist die kleinste mögliche Handlung, die sich heute gut anfühlen würde?</li>
+          <li>Ein Glas Wasser trinken. Ein Fenster öffnen. Einmal tief durchatmen. Einen kurzen Spaziergang machen.</li>
+          <li>Tue es. Nicht weil es die Situation löst – sondern weil dein Nervensystem lernt: Ich kann etwas tun.</li>
+          <li>Danach: Nimm wahr, wie du dich fühlst – auch wenn sich kaum etwas verändert hat.</li>
+        </ol>
+      </div>
+
+      <div class="journal-wrap">
+        <div class="journal-label">
+          Was wäre deine kleinste mögliche Handlung heute?
+          <span class="journal-optional">freiwillig</span>
+        </div>
+        <textarea class="journal" id="j-2" placeholder="Es darf wirklich klein sein. Kleiner als du denkst."></textarea>
+        <div class="speech-row">
+          <button class="speech-btn" id="speech-2" onclick="toggleSpeech(2)">🎙 Sprechen statt tippen</button>
+          <span class="speech-status" id="ss-2"></span>
+        </div>
+      </div>
+
+      <div class="crisis">
+        <div class="crisis-title">Wenn es gerade sehr schwer ist</div>
+        <p>Telefonseelsorge: <a href="tel:08001110111">0800 111 0 111</a> (kostenlos, 24/7)<br>
+        <a href="https://www.telefonseelsorge.de" target="_blank">telefonseelsorge.de</a></p>
+      </div>
+
+      <button class="primary" onclick="completeModule(2)">Modul abschließen →</button>
+    </div>
+  </div>
+
+  <!-- ════ MODUL 4 ════ -->
+  <div class="panel" id="panel-3">
+    <div class="card">
+      <h2>Ein winziger Schritt</h2>
+      <p class="sub">Wie kleine Handlungen das Gehirn umprogrammieren.</p>
+
+      <div class="baro-wrap">
+        <div class="baro-label">Stimmungsbarometer – vor dem Lesen</div>
+        <div class="baro-q">Wie geht es dir gerade – auf einer Skala von 1 bis 10?</div>
+        <div class="baro-scale" id="baro-3"></div>
+        <div class="baro-hint">1 = sehr schlecht &nbsp;·&nbsp; 10 = gut</div>
+      </div>
+
+      <div class="content">
+        <p>Das Gehirn lernt durch Wiederholung. Nicht durch Vorsätze, nicht durch Einsicht – durch tatsächlich gelebte Erfahrungen. Jede kleine Handlung, die du abschließt, hinterlässt eine Spur. Eine neuronale Erinnerung: Das habe ich getan. Das konnte ich.</p>
+        <p>Das nennt sich Verhaltensaktivierung – und es ist eine der am besten erforschten Methoden bei Depression und Antriebslosigkeit. Die Idee: Nicht warten, bis man sich bereit fühlt. Handeln – und das Gefühl folgt.</p>
+        <p><strong>Es geht nicht darum, viel zu tun. Es geht darum, überhaupt etwas zu tun.</strong></p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Übung · Meine Anker-Routine</div>
+        <div class="exercise-title">Eine Gewohnheit, die mich hält</div>
+        <ol class="exercise-steps">
+          <li>Wähle eine einzige kleine Handlung, die du täglich tun möchtest. Nur eine.</li>
+          <li>Knüpfe sie an etwas, das ohnehin passiert: nach dem Aufwachen, nach dem ersten Kaffee, vor dem Schlafengehen.</li>
+          <li>Mach sie so klein, dass es unmöglich ist, sie nicht zu tun. 1 Minute Stretching. Ein Satz schreiben. Einmal tief atmen.</li>
+          <li>Halte 7 Tage durch. Dann schau, was du wahrnimmst.</li>
+        </ol>
+      </div>
+
+      <div class="story">
+        <div class="story-label">✦ Geschichte · Die nächste Laterne</div>
+        <div class="story-text">
+          <p>Es war eine sehr dunkle Nacht, und jemand musste einen langen Weg gehen.</p>
+          <p>Die Taschenlampe warf nur einen kleinen Lichtkegel – vielleicht fünf Schritte weit. Das Ziel war weit, weit weg und nicht zu sehen.</p>
+          <p>„Wie soll ich dahin kommen", dachte derjenige, „wenn ich so wenig sehe?"</p>
+          <p>Und dann: ein Schritt. Noch einer. Die Lampe beleuchtete immer die nächsten fünf Schritte. Nicht mehr, nicht weniger.</p>
+          <p>Irgendwann – ohne zu merken, wann genau – war das Ziel nah. Nicht weil sich die Nacht gelichtet hatte. Sondern weil fünf Schritte auf einmal immer gereicht hatten.</p>
+        </div>
+      </div>
+
+      <div class="journal-wrap">
+        <div class="journal-label">
+          Meine eine kleine Routine
+          <span class="journal-optional">freiwillig</span>
+        </div>
+        <textarea class="journal" id="j-3" placeholder="Was möchtest du jeden Tag tun – ganz klein, ganz konkret?"></textarea>
+        <div class="speech-row">
+          <button class="speech-btn" id="speech-3" onclick="toggleSpeech(3)">🎙 Sprechen statt tippen</button>
+          <span class="speech-status" id="ss-3"></span>
+        </div>
+      </div>
+
+      <div class="crisis">
+        <div class="crisis-title">Wenn es gerade sehr schwer ist</div>
+        <p>Telefonseelsorge: <a href="tel:08001110111">0800 111 0 111</a> (kostenlos, 24/7)<br>
+        <a href="https://www.telefonseelsorge.de" target="_blank">telefonseelsorge.de</a></p>
+      </div>
+
+      <button class="primary" onclick="completeModule(3)">Modul abschließen →</button>
+    </div>
+  </div>
+
+  <!-- ════ MODUL 5 ════ -->
+  <div class="panel" id="panel-4">
+    <div class="card">
+      <h2>Du bist nicht allein</h2>
+      <p class="sub">Selbstmitgefühl – und der nächste Schritt nach draußen.</p>
+
+      <div class="baro-wrap">
+        <div class="baro-label">Stimmungsbarometer – vor dem Lesen</div>
+        <div class="baro-q">Wie geht es dir gerade – auf einer Skala von 1 bis 10?</div>
+        <div class="baro-scale" id="baro-4"></div>
+        <div class="baro-hint">1 = sehr schlecht &nbsp;·&nbsp; 10 = gut</div>
+      </div>
+
+      <div class="content">
+        <p>Es gibt diesen Moment, in dem man sich fragt: Warum komme ich nicht einfach drüber hinweg? Warum schaffe ich das nicht, was andere schaffen?</p>
+        <p>Hier ist die Wahrheit: Sehr viele Menschen kennen das, was du gerade erlebst. Panik, Leere, Schwere, fehlender Antrieb – das ist menschlich. Das ist nicht selten. Und das bedeutet: Du bist damit nicht allein, auch wenn es sich so anfühlt.</p>
+        <p>Selbstmitgefühl bedeutet nicht, sich zu bemitleiden. Es bedeutet, sich selbst gegenüber so zu sein, wie man einem guten Freund gegenüber wäre, dem es schlecht geht. Nicht urteilen. Nicht antreiben. Einfach da sein.</p>
+        <p><strong>Und manchmal bedeutet Selbstmitgefühl auch:</strong> Sich Hilfe zu holen. Nicht weil man schwach ist – sondern weil man sich wichtig genug nimmt.</p>
+      </div>
+
+      <div class="exercise">
+        <div class="exercise-label">Übung · Die Hand auf dem Herzen</div>
+        <div class="exercise-title">Selbstmitgefühl in 3 Minuten</div>
+        <ol class="exercise-steps">
+          <li>Leg eine Hand auf dein Herz. Spür die Wärme.</li>
+          <li>Sag innerlich: „Das ist ein schwerer Moment. Schwere Momente gehören zum Leben."</li>
+          <li>Dann: „Ich bin nicht allein damit – viele Menschen kennen das."</li>
+          <li>Schließlich: „Ich darf mir selbst freundlich begegnen."</li>
+          <li>Sitz einen Moment so. Kein Ziel. Nur da sein.</li>
+        </ol>
+      </div>
+
+      <div class="story">
+        <div class="story-label">✦ Geschichte · Der Brief an sich selbst</div>
+        <div class="story-text">
+          <p>Jemand schrieb einmal einen Brief. Nicht an eine andere Person – an sich selbst. An die Version von sich, die gerade im Dunkeln saß.</p>
+          <p>„Du machst das gut", schrieb er. „Auch wenn es sich nicht so anfühlt. Du bist noch hier. Das zählt."</p>
+          <p>Er fragte sich, ob das dumm sei. Aber dann las er den Brief noch einmal. Und etwas in ihm – ganz leise – wurde ein bisschen weicher.</p>
+          <p>Nicht gelöst. Nicht geheilt. Nur: ein bisschen weniger allein.</p>
+          <p>Manchmal reicht das für einen Tag.</p>
+        </div>
+      </div>
+
+      <div class="journal-wrap">
+        <div class="journal-label">
+          Was würdest du einem guten Freund sagen, dem es so geht wie dir?
+          <span class="journal-optional">freiwillig</span>
+        </div>
+        <textarea class="journal" id="j-4" placeholder="Schreib es auf. Oder sprich es. Und dann lies es noch einmal – als wäre es an dich gerichtet."></textarea>
+        <div class="speech-row">
+          <button class="speech-btn" id="speech-4" onclick="toggleSpeech(4)">🎙 Sprechen statt tippen</button>
+          <span class="speech-status" id="ss-4"></span>
+        </div>
+      </div>
+
+      <div style="background:var(--sage-soft);border:1px solid #C0DAD0;border-radius:14px;padding:20px 22px;margin-top:20px;">
+        <div style="font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sage-deep);font-weight:500;margin-bottom:10px;">Nächste Schritte – wenn du bereit bist</div>
+        <p style="font-size:.93rem;line-height:1.7;color:var(--ink);">Dieser Kurs ist ein Begleiter – kein Ersatz. Wenn du merkst, dass die Schwere bleibt oder stärker wird, ist professionelle Unterstützung der mutigste Schritt, den du tun kannst.</p>
+        <ul style="padding-left:18px;margin-top:10px;font-size:.9rem;line-height:1.8;color:#3A5A50;">
+          <li>Gespräch mit dem Hausarzt / der Hausärztin – erste Anlaufstelle</li>
+          <li>Psychotherapeutische Beratungsstellen (oft kostenlos)</li>
+          <li><a href="https://www.telefonseelsorge.de" target="_blank" style="color:var(--sage-deep);">telefonseelsorge.de</a> – online oder am Telefon</li>
+          <li><a href="https://www.bzga.de" target="_blank" style="color:var(--sage-deep);">bzga.de</a> – Infos & Vermittlung</li>
+        </ul>
+      </div>
+
+      <div class="milestone">
+        <div class="milestone-icon">🌿</div>
+        <div class="milestone-text">
+          <strong>Du hast alle fünf Module durchlaufen.</strong>
+          <span>Das ist keine Kleinigkeit. Schau dir deinen Weg an – er gehört dir.</span>
+        </div>
+      </div>
+
+      <button class="primary" onclick="completeModule(4)">Abschließen & meinen Weg ansehen →</button>
+    </div>
+  </div>
+
+  <!-- ════ MEIN WEG ════ -->
+  <div class="panel" id="panel-5">
+    <div class="card">
+      <h2>Mein Weg</h2>
+      <p class="sub">Dein Stimmungsverlauf über alle Module – ein ehrlicher Spiegel.</p>
+
+      <div class="disclaimer">
+        Depression macht es schwer, eigene Fortschritte zu sehen. Dieses Diagramm ist kein Urteil – es ist ein Spiegel. Auch kleine Verschiebungen nach oben sind echte Veränderungen.
+      </div>
+
+      <div id="chart-wrap">
+        <div id="chart-area"></div>
+      </div>
+
+      <div id="journal-overview" style="margin-top:24px;"></div>
+
+      <div class="milestone" style="margin-top:24px;">
+        <div class="milestone-icon">✨</div>
+        <div class="milestone-text">
+          <strong>Du hast diesen Kurs gemacht.</strong>
+          <span>Auch an einem schweren Tag. Auch wenn es sich vielleicht nicht wichtig angefühlt hat. Es war es.</span>
+        </div>
+      </div>
+
+      <button class="primary" onclick="resetCourse()" style="background:var(--muted);margin-top:12px;">Kurs zurücksetzen</button>
+    </div>
+  </div>
+
+</div><!-- /wrap -->
+
+<script>
+(function(){
+  "use strict";
+  const KEY = "kleiner-schritt-v1";
+  const MOD_NAMES = ["Was passiert","Wenn Panik kommt","Der leere Akku","Ein winziger Schritt","Nicht allein"];
+
+  let state = {
+    completed: [false,false,false,false,false],
+    baro: [null,null,null,null,null],
+    journal: ["","","","",""]
+  };
+
+  // ── LOAD ──
+  function load(){
+    try{
+      const raw = localStorage.getItem(KEY);
+      if(raw){ const s = JSON.parse(raw); if(s) state = s; }
+    }catch(e){}
+    initBaros();
+    restoreJournals();
+    renderNav();
+    renderProgress();
+    // open last active module
+    const first = state.completed.indexOf(false);
+    const mod = first === -1 ? 5 : (state.completed.every(Boolean) ? 5 : first);
+    showPanel(state.completed.every(Boolean) ? 5 : first);
+  }
+
+  function save(){
+    try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){}
+  }
+
+  // ── BAROS ──
+  function initBaros(){
+    for(let i=0;i<5;i++){
+      const wrap = document.getElementById("baro-"+i);
+      if(!wrap) continue;
+      wrap.innerHTML = "";
+      for(let v=1;v<=10;v++){
+        const btn = document.createElement("button");
+        btn.className = "baro-btn" + (state.baro[i]===v?" sel":"");
+        btn.textContent = v;
+        const idx=i, val=v;
+        btn.onclick = function(){
+          state.baro[idx] = val;
+          save();
+          wrap.querySelectorAll(".baro-btn").forEach(b=>b.classList.remove("sel"));
+          btn.classList.add("sel");
+        };
+        wrap.appendChild(btn);
+      }
+    }
+  }
+
+  // ── JOURNALS ──
+  function restoreJournals(){
+    for(let i=0;i<5;i++){
+      const ta = document.getElementById("j-"+i);
+      if(ta){ ta.value = state.journal[i]||""; ta.oninput=()=>{ state.journal[i]=ta.value; save(); }; }
+    }
+  }
+
+  // ── NAV ──
+  function renderNav(){
+    document.querySelectorAll(".mod-btn").forEach(btn=>{
+      const m = parseInt(btn.dataset.mod);
+      btn.classList.remove("active","done");
+      if(m===5){
+        // always accessible
+        return;
+      }
+      if(m>0 && !state.completed[m-1]){
+        btn.disabled = false; // allow free navigation
+      }
+      if(state.completed[m]) btn.classList.add("done");
+    });
+  }
+
+  function renderProgress(){
+    const done = state.completed.filter(Boolean).length;
+    const pct = Math.round(done/5*100);
+    document.getElementById("prog-fill").style.width = pct+"%";
+    document.getElementById("prog-pct").textContent = pct+" %";
+    document.getElementById("prog-label").textContent =
+      done===0?"Noch nicht begonnen":
+      done===5?"Alle Module abgeschlossen ✓":
+      `${done} von 5 Modulen abgeschlossen`;
+  }
+
+  // ── SHOW PANEL ──
+  function showPanel(idx){
+    document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
+    document.getElementById("panel-"+idx).classList.add("active");
+    document.querySelectorAll(".mod-btn").forEach(b=>b.classList.remove("active"));
+    const btn = document.querySelector(`.mod-btn[data-mod="${idx}"]`);
+    if(btn) btn.classList.add("active");
+    if(idx===5) renderChart();
+    window.scrollTo({top:0,behavior:"smooth"});
+  }
+
+  document.querySelectorAll(".mod-btn").forEach(btn=>{
+    btn.onclick=()=>showPanel(parseInt(btn.dataset.mod));
+  });
+
+  // ── COMPLETE ──
+  window.completeModule = function(idx){
+    state.completed[idx]=true;
+    save();
+    renderNav();
+    renderProgress();
+    showPanel(idx+1);
+  };
+
+  // ── CHART ──
+  function renderChart(){
+    const area = document.getElementById("chart-area");
+    const vals = state.baro;
+    const hasAny = vals.some(v=>v!==null);
+    if(!hasAny){
+      area.innerHTML = '<div class="chart-empty">Noch keine Stimmungsdaten vorhanden.<br>Fülle das Barometer in jedem Modul aus.</div>';
+      return;
+    }
+    const max = 10;
+    const h = 100;
+    let html = '<div class="chart-bars">';
+    vals.forEach((v,i)=>{
+      const pct = v ? v/max : 0;
+      const barH = pct * (h-20);
+      html += `<div class="chart-bar-col">
+        <div class="chart-val">${v!==null?v:'-'}</div>
+        <div class="chart-bar" style="height:${barH}px"></div>
+        <div class="chart-lbl">Modul<br>${i+1}</div>
+      </div>`;
+    });
+    html += '</div>';
+
+    // trend note
+    const filled = vals.filter(v=>v!==null);
+    if(filled.length>=2){
+      const first=filled[0], last=filled[filled.length-1];
+      const diff=last-first;
+      let note='';
+      if(diff>0) note=`<p style="color:var(--sage-deep);font-size:.9rem;margin-top:8px;">📈 Deine Stimmung ist von ${first} auf ${last} gestiegen – das ist eine echte Veränderung.</p>`;
+      else if(diff<0) note=`<p style="color:var(--terra);font-size:.9rem;margin-top:8px;">Das war kein leichter Kurs. Du hast ihn trotzdem gemacht.</p>`;
+      else note=`<p style="color:var(--muted);font-size:.9rem;margin-top:8px;">Manchmal hält man das Niveau – auch das ist Kraft.</p>`;
+      html+=note;
+    }
+    area.innerHTML=html;
+
+    // journal overview
+    const jWrap=document.getElementById("journal-overview");
+    let jHtml='';
+    state.journal.forEach((j,i)=>{
+      if(j && j.trim()){
+        jHtml+=`<div style="border-left:3px solid var(--sage);padding:10px 14px;margin-bottom:12px;border-radius:0 10px 10px 0;background:var(--sage-soft);">
+          <div style="font-size:.72rem;color:var(--sage-deep);font-weight:500;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px;">Modul ${i+1} · ${MOD_NAMES[i]}</div>
+          <div style="font-family:'Lora',serif;font-size:.93rem;color:#3A3028;line-height:1.75;font-style:italic;">${esc(j)}</div>
+        </div>`;
+      }
+    });
+    jWrap.innerHTML=jHtml?`<h3 style="font-family:'Lora',serif;font-weight:500;font-size:1.1rem;margin-bottom:14px;">Deine Gedanken</h3>`+jHtml:'';
+  }
+
+  // ── SPEECH ──
+  let recog=null, activeIdx=-1;
+  window.toggleSpeech=function(idx){
+    const btn=document.getElementById("speech-"+idx);
+    const ss=document.getElementById("ss-"+idx);
+    const ta=document.getElementById("j-"+idx);
+
+    if(!('webkitSpeechRecognition' in window||'SpeechRecognition' in window)){
+      ss.textContent="Spracherkennung wird von diesem Browser nicht unterstützt."; return;
+    }
+    if(recog && activeIdx===idx){
+      recog.stop(); return;
+    }
+    if(recog){ recog.stop(); }
+
+    const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+    recog=new SR();
+    recog.lang="de-DE";
+    recog.continuous=true;
+    recog.interimResults=true;
+    activeIdx=idx;
+
+    btn.classList.add("recording");
+    btn.textContent="⏹ Aufnahme stoppen";
+    ss.textContent="Ich höre zu …";
+
+    let base=ta.value;
+    recog.onresult=function(e){
+      let interim="",final="";
+      for(let r of e.results){
+        if(r.isFinal) final+=r[0].transcript;
+        else interim+=r[0].transcript;
+      }
+      ta.value=base+(final||interim);
+      state.journal[idx]=ta.value; save();
+    };
+    recog.onend=function(){
+      btn.classList.remove("recording");
+      btn.textContent="🎙 Sprechen statt tippen";
+      ss.textContent="";
+      base=ta.value;
+      recog=null; activeIdx=-1;
+    };
+    recog.onerror=function(e){
+      ss.textContent="Fehler: "+e.error;
+      btn.classList.remove("recording");
+      btn.textContent="🎙 Sprechen statt tippen";
+      recog=null; activeIdx=-1;
+    };
+    recog.start();
+  };
+
+  // ── RESET ──
+  window.resetCourse=function(){
+    if(!confirm("Möchtest du wirklich alle Fortschritte zurücksetzen?")) return;
+    state={completed:[false,false,false,false,false],baro:[null,null,null,null,null],journal:["","","","",""]};
+    save();
+    load();
+  };
+
+  function esc(t){ return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+  load();
+})();
+</script>
+</body>
+</html>
